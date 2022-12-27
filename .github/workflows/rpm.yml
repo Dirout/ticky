@@ -31,27 +31,27 @@ jobs:
           profile: minimal
       - name: Generate RPM package specification
         run: |
-          mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           rust2rpm .
+          mkdir -p ./rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           ls -al
-          mv ./rust-ticky.spec ./SPECS/
-          rpmlint ./SPECS/rust-ticky.spec
+          mv ./rust-ticky.spec ./rpmbuild/SPECS/
+          rpmlint ./rpmbuild/SPECS/rust-ticky.spec
       - name: Build & package Ticky
         run: |
           cargo package --all-features
-          mv ./target/package/ticky-*.crate ./SOURCES/
+          mv ./target/package/ticky-*.crate ./rpmbuild/SOURCES/
           ls -al
-          spectool -g -R ./SPECS/rust-ticky.spec
-          rpmbuild -ba ./SPECS/rust-ticky.spec
+          spectool -g -R ./rpmbuild/SPECS/rust-ticky.spec
+          rpmbuild -ba ./rpmbuild/SPECS/rust-ticky.spec
       - name: Upload Ticky package to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: ./RPMS/*.rpm
+          path: ./rpmbuild/RPMS/*.rpm
           if-no-files-found: error
       - name: Upload Ticky source package to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: ./SRPMS/*.src.rpm
+          path: ./rpmbuild/SRPMS/*.src.rpm
           if-no-files-found: error
