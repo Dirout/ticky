@@ -35,6 +35,13 @@ jobs:
           rust2rpm .
           cp ./rust-ticky.spec ~/rpmbuild/SPECS/
           rpmlint ~/rpmbuild/SPECS/rust-ticky.spec
+          printf "Repository:\n" && tree -a ./
+      - name: Commit changes to RPM package specification file, if any
+        run: |
+          git config --global user.name 'Ticky'
+          git config --global user.email 'Dirout@users.noreply.github.com'
+          git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
+          git push
       - name: Build & package Ticky
         run: |
           cargo package --all-features
@@ -42,17 +49,11 @@ jobs:
           cd ~/rpmbuild/SOURCES/
           spectool -g -R ~/rpmbuild/SPECS/rust-ticky.spec
           cd -
-          tree ~/rpmbuild/
-          tree ./
+          tree -a ~/rpmbuild/
+          tree -a ./
           packit srpm ./
           packit build locally ./
-          tree ./
-      - name: Commit changes to RPM package specification file, if any
-        run: |
-          git config --global user.name 'Ticky'
-          git config --global user.email 'Dirout@users.noreply.github.com'
-          git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
-          git push
+          tree -a ./
       - name: Upload Ticky package to GitHub
         uses: actions/upload-artifact@v3
         with:
