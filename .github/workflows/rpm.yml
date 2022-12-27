@@ -25,6 +25,7 @@ jobs:
           printf "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
           gh repo clone Dirout/ticky
           cd ./ticky
+          printf "Repository:\n" && tree -a ./
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -34,6 +35,8 @@ jobs:
           profile: minimal
       - name: Generate RPM package specification
         run: |
+          ls -al
+          cd ./ticky
           rpmdev-setuptree
           rust2rpm .
           cp ./rust-ticky.spec ~/rpmbuild/SPECS/
