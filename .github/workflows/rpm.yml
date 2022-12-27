@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Install compiler toolchain
         run: |
-          sudo dnf -q -y install gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging perl perl-FindBin perl-lib > /dev/null
+          sudo dnf -q -y install gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging packit tree perl perl-FindBin perl-lib > /dev/null
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -33,7 +33,7 @@ jobs:
         run: |
           rpmdev-setuptree
           rust2rpm .
-          mv ./rust-ticky.spec ~/rpmbuild/SPECS/
+          cp ./rust-ticky.spec ~/rpmbuild/SPECS/
           rpmlint ~/rpmbuild/SPECS/rust-ticky.spec
       - name: Build & package Ticky
         run: |
@@ -42,16 +42,26 @@ jobs:
           cd ~/rpmbuild/SOURCES/
           spectool -g -R ~/rpmbuild/SPECS/rust-ticky.spec
           cd -
-          rpmbuild -ba ~/rpmbuild/SPECS/rust-ticky.spec
+          tree ~/rpmbuild/
+          tree ./
+          packit srpm ./
+          packit build locally ./
+          tree ./
+      - name: Commit changes to RPM package specification file, if any
+        run: |
+          git config --global user.name 'Ticky'
+          git config --global user.email 'Dirout@users.noreply.github.com'
+          git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
+          git push
       - name: Upload Ticky package to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: ~/rpmbuild/RPMS/*.rpm
+          path: "*.rpm"
           if-no-files-found: error
       - name: Upload Ticky source package to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: ~/rpmbuild/SRPMS/*.src.rpm
+          path: "*.src.rpm"
           if-no-files-found: error
