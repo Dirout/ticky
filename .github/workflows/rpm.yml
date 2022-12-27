@@ -23,7 +23,7 @@ jobs:
       - name: Checkout codebase
         run: |
           printf "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-          gh repo clone Dirout/ticky
+          gh repo clone Dirout/ticky ./
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
