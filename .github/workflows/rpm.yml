@@ -31,15 +31,17 @@ jobs:
           profile: minimal
       - name: Generate RPM package specification
         run: |
+          rpmdev-setuptree
           rust2rpm .
-          mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           mv ./rust-ticky.spec ~/rpmbuild/SPECS/
           rpmlint ~/rpmbuild/SPECS/rust-ticky.spec
       - name: Build & package Ticky
         run: |
           cargo package --all-features
           mv ./target/package/ticky-*.crate ~/rpmbuild/SOURCES/
+          cd ~/rpmbuild/SOURCES/
           spectool -g -R ~/rpmbuild/SPECS/rust-ticky.spec
+          cd -
           rpmbuild -ba ~/rpmbuild/SPECS/rust-ticky.spec
       - name: Upload Ticky package to GitHub
         uses: actions/upload-artifact@v3
