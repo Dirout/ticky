@@ -44,11 +44,15 @@ jobs:
           printf "Repository:\n" && tree -a ./
       - name: Commit changes to RPM package specification file, if any
         run: |
+          ls -al
+          cd ./ticky
           git config --global --add safe.directory ./
           git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
           git push
       - name: Build & package Ticky
         run: |
+          ls -al
+          cd ./ticky
           cargo package --all-features
           mv ./target/package/ticky-*.crate ~/rpmbuild/SOURCES/
           cd ~/rpmbuild/SOURCES/
@@ -63,11 +67,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: "*.rpm"
+          path: "./ticky/*.rpm"
           if-no-files-found: error
       - name: Upload Ticky source package to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: "*.src.rpm"
+          path: "./ticky/*.src.rpm"
           if-no-files-found: error
