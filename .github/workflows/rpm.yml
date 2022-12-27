@@ -27,8 +27,6 @@ jobs:
           gh repo clone Dirout/ticky
           cd ./ticky
           printf "Repository:\n" && tree -a ./
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
