@@ -33,15 +33,16 @@ jobs:
         run: |
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           rust2rpm .
-          mv ./ticky.spec ./SPECS/
-          rpmlint ./SPECS/ticky.spec
+          ls -al
+          mv ./rust-ticky.spec ./SPECS/
+          rpmlint ./SPECS/rust-ticky.spec
       - name: Build & package Ticky
         run: |
           cargo package --all-features
           mv ./target/package/ticky-*.crate ./SOURCES/
           ls -al
-          spectool -g -R ./SPECS/ticky.spec
-          rpmbuild -ba ./SPECS/ticky.spec
+          spectool -g -R ./SPECS/rust-ticky.spec
+          rpmbuild -ba ./SPECS/rust-ticky.spec
       - name: Upload Ticky package to GitHub
         uses: actions/upload-artifact@v3
         with:
