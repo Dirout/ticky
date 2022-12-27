@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Install compiler toolchain
         run: |
-          sudo dnf -q -y install gcc rpm-build rpmdevtools rpmlint python3-rust2rpm perl perl-FindBin perl-lib > /dev/null
+          sudo dnf -q -y install gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging perl perl-FindBin perl-lib > /dev/null
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -31,14 +31,13 @@ jobs:
           profile: minimal
       - name: Generate RPM package specification
         run: |
+          cargo package --all-features
           rust2rpm .
           mkdir -p ./rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-          ls -al
           mv ./rust-ticky.spec ./rpmbuild/SPECS/
           rpmlint ./rpmbuild/SPECS/rust-ticky.spec
       - name: Build & package Ticky
         run: |
-          cargo package --all-features
           mv ./target/package/ticky-*.crate ./rpmbuild/SOURCES/
           ls -al
           spectool -g -R ./rpmbuild/SPECS/rust-ticky.spec
