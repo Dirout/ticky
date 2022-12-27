@@ -1,0 +1,65 @@
+#    This file is part of Ticky.
+#
+#    Ticky is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    Ticky is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with Ticky.  If not, see <https://www.gnu.org/licenses/>.
+[package]
+name = "ticky"
+version = "0.1.0"
+authors = ["Emil Sayahi <limesayahi@gmail.com>"]
+edition = "2021"
+license = "AGPL-3.0-or-later"
+description = "A stopwatch library, written in Rust."
+repository = "https://github.com/Dirout/ticky"
+homepage = "https://github.com/Dirout/ticky"
+readme = "README"
+resolver = "2"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "COPYING",
+    "LICENSE.md",
+    "NOTICE",
+    "rust-toolchain",
+    "rustfmt.toml",
+    ".cargo/*",
+]
+
+[lib]
+name = "ticky"
+path = "src/lib.rs"
+crate-type=["rlib", "dylib", "staticlib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+derive_more = { version = "0.99.17", optional = true }
+
+[features]
+derive_more = ["dep:derive_more"]
+
+[profile.release]
+codegen-units = 1
+opt-level = 3
+lto = true
+debug = 0
+panic = 'abort'
+
+[package.metadata.deb]
+section = "utility"
+priority = "optional"
+assets = [
+    ["target/x86_64-unknown-linux-gnu/release/libticky.so", "usr/lib/", "755"],
+    ["target/x86_64-unknown-linux-gnu/release/libticky.a", "usr/lib/", "755"],
+    ["README", "usr/share/doc/ticky/README", "644"],
+    ["COPYING", "usr/share/doc/ticky/COPYING", "644"],
+]

@@ -1,0 +1,84 @@
+on:
+  push:
+    branches:    
+      - 'master'
+
+name: 'Build: macOS (Universal)'
+
+jobs:
+  mac_universal:
+    name: macOS (Universal)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v3
+      - name: Install development dependencies
+        run: |
+          brew update > /dev/null
+      - name: Setup Rust toolchain for AMD64
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: x86_64-apple-darwin
+          default: true
+          profile: minimal
+      - name: Setup Rust toolchain for ARM64
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: aarch64-apple-darwin
+          default: false
+          profile: minimal
+      - name: Build Ticky for AMD64
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: false
+          command: build
+          args: --release --target x86_64-apple-darwin
+      - name: Build Ticky for AARCH64
+        run: |
+          SDKROOT=$(xcrun -sdk macosx --show-sdk-path) \
+          MACOSX_DEPLOYMENT_TARGET=$(xcrun -sdk macosx --show-sdk-platform-version) \
+          cargo build --release --target=aarch64-apple-darwin
+      - name: Prepare Ticky for upload
+        run: |
+          lipo -create \
+          -output target/libticky.dylib \
+          target/aarch64-apple-darwin/release/libticky.dylib \
+          target/x86_64-apple-darwin/release/libticky.dylib
+          lipo -create \
+          -output target/libticky.a \
+          target/aarch64-apple-darwin/release/libticky.a \
+          target/x86_64-apple-darwin/release/libticky.a
+          cd ./target
+          tar -cvf universal-ticky.osx.tar \
+          libticky.dylib \
+          libticky.a
+
+          cd ./x86_64-apple-darwin/release/
+          tar -cvf x86_64-ticky.osx.tar \
+          libticky.dylib \
+          libticky.a
+
+          cd ../../aarch64-apple-darwin/release/
+          tar -cvf aarch64-ticky.osx.tar \
+          libticky.dylib \
+          libticky.a
+      - name: Upload Ticky AMD64 build artifacts to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: x86_64-ticky.osx
+          path: ./target/x86_64-apple-darwin/release/x86_64-ticky.osx.tar
+          if-no-files-found: error
+      - name: Upload Ticky ARM64 build artifacts to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: aarch64-ticky.osx
+          path: ./target/aarch64-apple-darwin/release/aarch64-ticky.osx.tar
+          if-no-files-found: error
+      - name: Upload Ticky Universal build artifacts to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: universal-ticky.osx
+          path: ./target/universal-ticky.osx.tar
+          if-no-files-found: error
