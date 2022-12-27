@@ -17,13 +17,13 @@ jobs:
         - /sys/fs/cgroup:/sys/fs/cgroup
       options: --privileged
     steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install compiler toolchain
+      - name: Install requisite packages
         run: |
-          sudo dnf -q -y install gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging packit tree perl perl-FindBin perl-lib > /dev/null
+          sudo dnf -q -y install git gh gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging packit tree perl perl-FindBin perl-lib > /dev/null
+      - name: Checkout codebase
+        run: |
+          printf "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          gh repo clone Dirout/ticky
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
