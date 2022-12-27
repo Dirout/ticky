@@ -23,7 +23,8 @@ jobs:
       - name: Checkout codebase
         run: |
           printf "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-          gh repo clone Dirout/ticky ./
+          gh repo clone Dirout/ticky
+          cd ./ticky
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -40,8 +41,7 @@ jobs:
           printf "Repository:\n" && tree -a ./
       - name: Commit changes to RPM package specification file, if any
         run: |
-          git config --global user.name 'Ticky'
-          git config --global user.email 'Dirout@users.noreply.github.com'
+          git config --global --add safe.directory ./
           git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
           git push
       - name: Build & package Ticky
