@@ -48,7 +48,7 @@ jobs:
           git config --global user.name 'Ticky'
           git config --global user.email 'Dirout@users.noreply.github.com'
           git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/Dirout/ticky.git
+          git push https://${{ secrets.PAT }}@github.com/Dirout/ticky.git
       - name: Build & package Ticky
         run: |
           ls -al
