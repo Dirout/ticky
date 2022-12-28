@@ -47,7 +47,8 @@ jobs:
           git config --global --add safe.directory ./
           git config --global user.name 'Ticky'
           git config --global user.email 'Dirout@users.noreply.github.com'
-          git diff --quiet && git diff --staged --quiet || git commit -am "Automatically updated RPM package specification"
+          git add ./rust-ticky.spec
+          git commit -am "Automatically updated RPM package specification"
           git push https://${{ secrets.PAT }}@github.com/Dirout/ticky.git
       - name: Build & package Ticky
         run: |

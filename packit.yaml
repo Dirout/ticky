@@ -51,4 +51,4 @@ jobs:
 
 actions:
   get-current-version:
-    - "cargo pkgid | cut -d# -f2 | cut -d: -f2"
+    - bash -c  "cargo pkgid | cut -d# -f2 | cut -d: -f2"
