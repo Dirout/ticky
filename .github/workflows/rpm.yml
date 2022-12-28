@@ -49,7 +49,7 @@ jobs:
           git config --global user.email 'Dirout@users.noreply.github.com'
           git add ./rust-ticky.spec
           git commit -am "Automatically updated RPM package specification"
-          git push https://${{ secrets.PAT }}@github.com/Dirout/ticky.git
+          git diff --quiet && git diff --staged --quiet || git push https://${{ secrets.PAT }}@github.com/Dirout/ticky.git
       - name: Build & package Ticky
         run: |
           ls -al
