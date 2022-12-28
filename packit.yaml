@@ -50,5 +50,4 @@ jobs:
     - fedora-all
 
 actions:
-  get-current-version:
-    - bash -c  "cargo pkgid | cut -d# -f2 | cut -d: -f2"
+  get-current-version: bash -c  "cargo pkgid | cut -d# -f2 | cut -d: -f2"
