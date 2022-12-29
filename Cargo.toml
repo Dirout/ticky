@@ -66,8 +66,8 @@ assets = [
 
 [package.metadata.generate-rpm]
 assets = [
-  { source = "target/x86_64-unknown-linux-gnu/release/libticky.so", dest = "/usr/lib/libticky.so", mode = "755" },
-  { source = "target/x86_64-unknown-linux-gnu/release/libticky.a", dest = "/usr/lib/libticky.a", mode = "755" },
+  { source = "target/release/libticky.so", dest = "/usr/lib/libticky.so", mode = "755" },
+  { source = "target/release/libticky.a", dest = "/usr/lib/libticky.a", mode = "755" },
   { source = "README", dest = "/usr/share/doc/ticky/README", mode = "644" },
   { source = "COPYING", dest = "/usr/share/doc/ticky/COPYING", mode = "644" },
 ]
