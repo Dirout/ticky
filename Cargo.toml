@@ -33,6 +33,18 @@ include = [
     "rustfmt.toml",
     ".cargo/*",
 ]
+exclude = [
+  ".whitesource",
+  "dev_doc.sh",
+  "doc.sh",
+  "packit.yaml",
+  "renovate.json",
+  "rust-ticky.spec",
+  ".github/*",
+  ".git/*",
+  ".gitignore",
+  ".gitattributes",
+]
 
 [lib]
 name = "ticky"

@@ -10,7 +10,6 @@ upstream_project_url: https://github.com/Dirout/ticky
 copy_upstream_release_description: true
 issue_repository: https://github.com/Dirout/ticky
 downstream_package_name: rust-ticky
-release_suffix: "{PACKIT_RPMSPEC_RELEASE}.{PACKIT_PROJECT_BRANCH}.{PACKIT_PROJECT_COMMIT}"
 srpm_build_deps:
   - gcc
   - rust
