@@ -60,5 +60,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-ticky.rpm.gnu+linux
-          path: "./target/generate-rpm/*.rpm"
+          path: "./ticky/target/generate-rpm/*.rpm"
           if-no-files-found: error
