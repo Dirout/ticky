@@ -54,6 +54,7 @@ jobs:
           cd ./ticky
           cargo install cargo-generate-rpm
           cargo build --release
+          tree -a ./target/release
           cargo generate-rpm
           tree -a ./
       - name: Upload Ticky package to GitHub
