@@ -19,8 +19,8 @@ jobs:
     steps:
       - name: Install requisite packages
         run: |
-          sudo dnf update > /dev/null
-          sudo dnf -q -y install git gh gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging rust cargo tree perl perl-FindBin perl-lib > /dev/null
+          sudo dnf -q -y update > /dev/null
+          sudo dnf -q -y install git gh gcc rpm-build rpmdevtools rpmlint python3-rust2rpm rust-packaging rust cargo rust-gdb tree perl perl-FindBin perl-lib > /dev/null
       - name: Checkout codebase
         run: |
           printf "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
