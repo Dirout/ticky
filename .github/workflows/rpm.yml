@@ -36,10 +36,8 @@ jobs:
       - name: Generate RPM package specification
         run: |
           cd ./ticky
-          rpmdev-setuptree
           rust2rpm .
-          cp ./rust-ticky.spec ~/rpmbuild/SPECS/
-          rpmlint ~/rpmbuild/SPECS/rust-ticky.spec
+          rpmlint ./rust-ticky.spec
           printf "Repository:\n" && tree -a ./
       - name: Commit changes to RPM package specification file, if any
         run: |
@@ -52,14 +50,7 @@ jobs:
           git push https://${{ secrets.PAT }}@github.com/Dirout/ticky.git
       - name: Build & package Ticky
         run: |
-          ls -al
           cd ./ticky
-          cargo package --all-features
-          mv ./target/package/ticky-*.crate ~/rpmbuild/SOURCES/
-          cd ~/rpmbuild/SOURCES/
-          spectool -g -R ~/rpmbuild/SPECS/rust-ticky.spec
-          cd -
-          tree -a ~/rpmbuild/
           tree -a ./
           packit srpm ./
           packit build locally ./
