@@ -63,6 +63,42 @@ use the "derive_more" feature of the "%{crate}" crate.
 %files       -n %{name}+derive_more-devel
 %ghost %{crate_instdir}/Cargo.toml
 
+%package     -n %{name}+hifitime-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+hifitime-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "hifitime" feature of the "%{crate}" crate.
+
+%files       -n %{name}+hifitime-devel
+%ghost %{crate_instdir}/Cargo.toml
+
+%package     -n %{name}+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+std-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "std" feature of the "%{crate}" crate.
+
+%files       -n %{name}+std-devel
+%ghost %{crate_instdir}/Cargo.toml
+
+%package     -n %{name}+stdtime-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+stdtime-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "stdtime" feature of the "%{crate}" crate.
+
+%files       -n %{name}+stdtime-devel
+%ghost %{crate_instdir}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
