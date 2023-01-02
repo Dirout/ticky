@@ -33,18 +33,6 @@ include = [
     "rustfmt.toml",
     ".cargo/*",
 ]
-exclude = [
-  ".whitesource",
-  "dev_doc.sh",
-  "doc.sh",
-  "packit.yaml",
-  "renovate.json",
-  "rust-ticky.spec",
-  ".github/*",
-  ".git/*",
-  ".gitignore",
-  ".gitattributes",
-]
 
 [lib]
 name = "ticky"
@@ -54,17 +42,22 @@ crate-type=["rlib", "dylib", "staticlib"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+cfg-if = "1.0.0"
 derive_more = { version = "0.99.17", optional = true }
+hifitime = { version = "3.8.0", default-features = false, optional = true }
 
 [features]
+default = ["std", "stdtime"]
 derive_more = ["dep:derive_more"]
+hifitime = ["dep:hifitime"]
+std = ["hifitime?/std"]
+stdtime = ["std"]
 
 [profile.release]
 codegen-units = 1
 opt-level = 3
 lto = true
 debug = 0
-panic = 'abort'
 
 [package.metadata.deb]
 section = "utility"
