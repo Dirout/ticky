@@ -14,7 +14,7 @@
 #    along with Ticky.  If not, see <https://www.gnu.org/licenses/>.
 [package]
 name = "ticky"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["Emil Sayahi <limesayahi@gmail.com>"]
 edition = "2021"
 license = "AGPL-3.0-or-later"
