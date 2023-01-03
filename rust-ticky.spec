@@ -5,7 +5,7 @@
 %global crate ticky
 
 Name:           rust-ticky
-Version:        1.0.1
+Version:        1.0.2
 Release:        %autorelease
 Summary:        Stopwatch library, written in Rust
 
