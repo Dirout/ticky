@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["Stopwatch","A simple stopwatch implementation."]]};
+window.SIDEBAR_ITEMS = {"struct":["Stopwatch"]};
