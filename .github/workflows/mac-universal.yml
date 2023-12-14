@@ -65,19 +65,19 @@ jobs:
           libticky.dylib \
           libticky.a
       - name: Upload Ticky AMD64 build artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: x86_64-ticky.osx
           path: ./target/x86_64-apple-darwin/release/x86_64-ticky.osx.tar
           if-no-files-found: error
       - name: Upload Ticky ARM64 build artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: aarch64-ticky.osx
           path: ./target/aarch64-apple-darwin/release/aarch64-ticky.osx.tar
           if-no-files-found: error
       - name: Upload Ticky Universal build artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: universal-ticky.osx
           path: ./target/universal-ticky.osx.tar
