@@ -34,7 +34,7 @@ jobs:
           command: deb
           args: --separate-debug-symbols -- --target x86_64-unknown-linux-gnu
       - name: Upload Ticky build artifact to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: x86_64-ticky.deb.gnu+linux
           path: ./target/debian/ticky_*_amd64.deb
